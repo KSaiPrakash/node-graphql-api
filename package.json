@@ -1,5 +1,5 @@
 {
-  "name": "node-graphql-api",
+  "name": "node-apollo-server",
   "version": "1.0.0",
   "description": "This small example illustrates the integration of node server written in javascript and integrated with graph ql, apollo client.",
   "main": "server.js",
