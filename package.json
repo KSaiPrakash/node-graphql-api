@@ -1,15 +1,26 @@
 {
   "name": "node-graphql-api",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "This small example illustrates the integration of node server written in javascript and integrated with graph ql, apollo client.",
+  "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KSaiPrakash/node-graphql-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KSaiPrakash/node-graphql-api/issues"
+  },
+  "homepage": "https://github.com/KSaiPrakash/node-graphql-api#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "apollo-server": "^2.19.2",
+    "graphql": "^15.4.0",
+    "cookie-parser": "~1.4.4"
   }
 }

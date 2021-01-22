@@ -1,35 +1,38 @@
+// const { ApolloServer } = require('apollo-server');
 const express = require('express');
-
-const http = require('http');
-const app = express();
-
-const debug = require('debug')('api:server');
-
+const { ApolloServer } = require('apollo-server-express');
+const { typeDefs, resolvers } = require('./schema/schema');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const app = express();
 
+/** The ApolloServer constructor requires two parameters: your schema
+    definition and your set of resolvers. */
+const server = new ApolloServer({ typeDefs, resolvers });
+
+/** add middleware to apollo server  */
+server.applyMiddleware({app})
 /** add middleware  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+/** adding cors to all incoming requests from client */
+app.use(cors());
 
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
 /**
  * Get port from environment and store in Express.
  */
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-console.log(`Sai's graphql server running on ${port}`)
-/**
- * Listen on provided port, on all network interfaces.
- */
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+
+app.use((req, res) => {
+  res.status(200);
+  res.send('Hello!');
+  res.end();
+});
+
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -49,7 +52,6 @@ function normalizePort(val) {
 
   return false;
 }
-
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -63,7 +65,7 @@ function onError(error) {
     ? 'Pipe ' + port
     : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
+  /** handle specific listen errors with friendly messages */
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -77,7 +79,6 @@ function onError(error) {
       throw error;
   }
 }
-
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -90,5 +91,9 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-
-module.exports = app;
+/**  The `listen` method launches a web server. */
+app.listen({ port }, () =>
+  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+)
+app.on('error', onError);
+app.on('listening', onListening);
