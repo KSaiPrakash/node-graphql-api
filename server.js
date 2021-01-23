@@ -1,23 +1,24 @@
-// const { ApolloServer } = require('apollo-server');
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schema/schema');
+const { typeDefs, resolvers } = require('./datasource/launchdatasource');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const app = express();
 
 /** The ApolloServer constructor requires two parameters: your schema
     definition and your set of resolvers. */
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers});
 
-/** add middleware to apollo server  */
-server.applyMiddleware({app})
+/** adding cors to all incoming requests from client */
+app.use(cors());
+
 /** add middleware  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-/** adding cors to all incoming requests from client */
-app.use(cors());
+
+/** add middleware to apollo server  */
+server.applyMiddleware({app});
+
 
 /**
  * Get port from environment and store in Express.
@@ -25,13 +26,6 @@ app.use(cors());
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-app.use((req, res) => {
-  res.status(200);
-  res.send('Hello!');
-  res.end();
-});
-
 
 /**
  * Normalize a port into a number, string, or false.
